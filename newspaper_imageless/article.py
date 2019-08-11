@@ -23,7 +23,6 @@ from .extractors import ContentExtractor
 from .outputformatters import OutputFormatter
 from .utils import (URLHelper, RawHelper, extend_config,
                     get_available_languages, extract_meta_refresh)
-from .videos.extractors import VideoExtractor
 
 log = logging.getLogger(__name__)
 
@@ -71,18 +70,6 @@ class Article(object):
         self.url = urls.prepare_url(url, self.source_url)
 
         self.title = title
-
-        # URL of the "best image" to represent this article
-        self.top_img = self.top_image = ''
-
-        # stores image provided by metadata
-        self.meta_img = ''
-
-        # All image urls in this article
-        self.imgs = self.images = []
-
-        # All videos in this article: youtube, vimeo, etc
-        self.movies = []
 
         # Body text from this article
         self.text = ''
@@ -271,8 +258,6 @@ class Article(object):
 
         self.top_node = self.extractor.calculate_best_node(self.doc)
         if self.top_node is not None:
-            video_extractor = VideoExtractor(self.config, self.top_node)
-            self.set_movies(video_extractor.get_videos())
 
             self.top_node = self.extractor.post_cleanup(self.top_node)
             self.clean_top_node = copy.deepcopy(self.top_node)
@@ -284,9 +269,6 @@ class Article(object):
 
         self.is_parsed = True
         self.release_resources()
-
-    def has_top_image(self):
-        return self.top_img is not None and self.top_img != ''
 
     def is_valid_url(self):
         """Performs a check on the url of this link to determine if article
@@ -473,12 +455,6 @@ class Article(object):
 
     def set_tags(self, tags):
         self.tags = tags
-
-    def set_movies(self, movie_objects):
-        """Trim video objects into just urls
-        """
-        movie_urls = [o.src for o in movie_objects if o and o.src]
-        self.movies = movie_urls
 
     def throw_if_not_downloaded_verbose(self):
         """Parse ArticleDownloadState -> log readable status

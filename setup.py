@@ -16,7 +16,7 @@ except ImportError:
 
 
 packages = [
-    'newspaper',
+    'newspaper_imageless',
 ]
 
 
@@ -46,8 +46,8 @@ with codecs.open('README.rst', 'r', 'utf-8') as f:
 
 
 setup(
-    name='newspaper3k-imageless',
-    version='0.0.1',
+    name='newspaper3k_imageless',
+    version='0.0.4',
     description='Simplified python article discovery & extraction. (Without images)',
     url='https://github.com/ltskinner/newspaper',
     packages=packages,
