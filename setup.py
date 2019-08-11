@@ -46,13 +46,10 @@ with codecs.open('README.rst', 'r', 'utf-8') as f:
 
 
 setup(
-    name='newspaper3k',
-    version='0.2.8',
-    description='Simplified python article discovery & extraction.',
-    long_description=readme,
-    author='Lucas Ou-Yang',
-    author_email='lucasyangpersonal@gmail.com',
-    url='https://github.com/codelucas/newspaper/',
+    name='newspaper3k-imageless',
+    version='0.0.1',
+    description='Simplified python article discovery & extraction. (Without images)',
+    url='https://github.com/ltskinner/newspaper',
     packages=packages,
     include_package_data=True,
     install_requires=required,
