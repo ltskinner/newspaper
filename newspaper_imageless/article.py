@@ -146,7 +146,6 @@ class Article(object):
         """
         self.download()
         self.parse()
-        self.nlp()
 
     def _parse_scheme_file(self, path):
         try:
@@ -325,24 +324,6 @@ class Article(object):
             if s in self.url:
                 return True
         return False
-
-    def nlp(self):
-        """Keyword extraction wrapper
-        """
-        self.throw_if_not_downloaded_verbose()
-        self.throw_if_not_parsed_verbose()
-
-        nlp.load_stopwords(self.config.get_language())
-        text_keyws = list(nlp.keywords(self.text).keys())
-        title_keyws = list(nlp.keywords(self.title).keys())
-        keyws = list(set(title_keyws + text_keyws))
-        self.set_keywords(keyws)
-
-        max_sents = self.config.MAX_SUMMARY_SENT
-
-        summary_sents = nlp.summarize(title=self.title, text=self.text, max_sents=max_sents)
-        summary = '\n'.join(summary_sents)
-        self.set_summary(summary)
 
     def get_parse_candidate(self):
         """A parse candidate is a wrapper object holding a link hash of this
